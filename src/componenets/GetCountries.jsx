@@ -30,7 +30,7 @@ function GetCountries() {
     <h2>{country.name.common}</h2>
   </div>
 ))}
-However, using indexes as keys is not recommended if the list can change (additions, deletions, reordering), as it can lead to performance issues and bugs related to component state. Always prefer a unique ID from your data if available.
+
 
 
 
