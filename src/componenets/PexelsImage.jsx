@@ -1,38 +1,44 @@
 import axios from 'axios';
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-function Photo() {
-
-  const [imageUrl, setImageUrl] = useState('');
-
+function PexelPhoto({ query }) {
+  const [photo, setPhoto] = useState(null);
 
   useEffect(() => {
+    if (!query) return;
 
-    const getImage = async () => {
+    const fetchPhotos = async () => {
       try {
-        const response = await axios.get('https://api.unsplash.com/photos/random', {
+        const response = await axios.get('https://api.pexels.com/v1/search', {
+          headers: {
+            Authorization: 'VK9JDtB0RrynjxJsKXJ1KXF7x0lyfjCcvMcW5400VyLsJVObjYflfj87' // Replace with your Pexels API key
+          },
           params: {
-            client_id: 'ksLDkW3dtzfJh-N8xpvFqFenDddkRzHK_aB5Ew07koo',
-
+            query: query,
+            per_page: 1
           }
         });
-        setImageUrl(response.data.urls.regular);
+
+        if (response.data.photos.length > 0) {
+          setPhoto(response.data.photos[0].src.original); // Set the first photo's URL
+        }
       } catch (error) {
-        console.error("Error getting Image: ", error);
+        console.error('Error fetching photo from Pexels:', error);
       }
     };
 
-    getImage();
+    fetchPhotos();
+  }, [query]); // The effect runs whenever the query changes
 
-  },[]);
-
-    return (
-      <>
-        <h1 className="text-blue-400">Photo</h1>
-        {imageUrl ? <img src={imageUrl} alt="Random from Unsplash" /> : <p>Loading...</p>}
-
-      </>
-    );
+  if (!photo) {
+    return <div>Loading...</div>;
   }
 
-export default Photo;
+  return (
+    <div className=' h-64 flex overflow-y-hidden justify-center items-center bg-gray-200'>
+    <img src={photo} alt={query} className="object-cover w-full h-full"  />
+    </div>)
+  ;
+}
+
+export default PexelPhoto;
