@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import PexelPhoto from "./PexelsImage";
+import RecipeOfTheDay from "./RecipeOfTheDay";
 
 function Recipes() {
   const [recipes, setRecipes] = useState([]);
@@ -56,6 +57,8 @@ function Recipes() {
         </Form>
       </div>
 
+      {!searchSubmitted && <RecipeOfTheDay />}
+
       <div className="m-5">
         {searchSubmitted && (
           <h2>
@@ -63,30 +66,32 @@ function Recipes() {
           </h2>
         )}
         <div className=" m-auto w-5/6 flex flex-wrap justify-center mt-5 ">
-          {recipes.length > 0 ? (
-            recipes.map((recipe, index) => (
-              <div key={index}>
-                <Card
-                  style={{ width: "18rem", height: "20rem" }}
-                  className="m-2 mb-5"
-                >
-                  <PexelPhoto query={recipe.title + " food"} />
-                  <Card.Body>
-                    <Card.Title>{recipe.title}</Card.Title>
-                    <Card.Text>{recipe.servings}</Card.Text>
-                    <Button
-                      variant="success"
-                      className="bg-yellow-700 border-yellow-700 mt-3"
-                    >
-                      Check it out
-                    </Button>
-                  </Card.Body>
-                </Card>
-              </div>
-            ))
-          ) : (
-            searchSubmitted && <p>No recipes found. Try a different search!</p> 
-          )}{" "}
+          {recipes.length > 0
+            ? recipes.map((recipe, index) => (
+                <div key={index}>
+                  <Card
+                    style={{ width: "18rem", height: "20rem" }}
+                    className="m-2 mb-5"
+                  >
+                    <div className=" h-64 flex overflow-y-hidden justify-center items-center bg-gray-200">
+                      <PexelPhoto query={recipe.title + " food"} />
+                    </div>
+                    <Card.Body>
+                      <Card.Title>{recipe.title}</Card.Title>
+                      <Card.Text>{recipe.servings}</Card.Text>
+                      <Button
+                        variant="success"
+                        className="bg-yellow-700 border-yellow-700 mt-3"
+                      >
+                        Check it out
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </div>
+              ))
+            : searchSubmitted && (
+                <p>No recipes found. Try a different search!</p>
+              )}{" "}
         </div>
       </div>
     </>

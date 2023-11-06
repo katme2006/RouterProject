@@ -1,22 +1,21 @@
 import { useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Recipes from "./componenets/GetRecipes";
-import TopNav from "./componenets/TopNav";
-
+import TopNav from "./components/TopNav";
+import About from "./components/About";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import HomePage from "./components/HomePage";
 
 function App() {
   return (
-    <>
-    <TopNav/>
-      <div className="m-12">
-        <h1 className="text-blue-400 text-center w-3/4 m-auto font-black text-7xl">
-          Find a Recipe
-        </h1>
-      </div>
-
-      <Recipes />
-    </>
+    <BrowserRouter>
+      <TopNav/>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<About />} />
+        {/* Additional routes here */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
